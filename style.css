@@ -26,3 +26,6 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 40px 0 8px; }
 footer.site { padding: 32px 16px; text-align: center; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); }
 details { border-bottom: 1px solid var(--border); padding: 12px 0; }
 summary { font-weight: 600; cursor: pointer; }
+
+.grid h3 a { text-decoration: none; }
+.grid h3 a:hover { text-decoration: underline; }
