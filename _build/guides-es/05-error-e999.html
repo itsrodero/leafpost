@@ -1,0 +1,54 @@
+<!--{
+  "order": 5,
+  "slug": "es/error-e999-kindle",
+  "alt": "send-to-kindle-error-e999",
+  "short": "Error E999",
+  "title": "Error E999 en Kindle: qué significa y cómo solucionarlo",
+  "h1": "Error E999 al enviar a Kindle: qué significa y cómo solucionarlo",
+  "description": "El error E999 de Send to Kindle significa que Amazon no pudo convertir el archivo, casi siempre un EPUB defectuoso. Las soluciones que funcionan, en orden.",
+  "published": "2026-10-15",
+  "minutes": 5,
+  "related": ["es/enviar-epub-a-kindle", "es/send-to-kindle-no-funciona", "es/pasar-libros-a-kindle"]
+}-->
+<p class="answer"><strong>Respuesta rápida:</strong> E999 es un «error interno» del servicio de conversión de Amazon: el archivo llegó, pero no pudo convertirlo en libro de Kindle. Casi siempre es culpa del archivo (normalmente un EPUB al que le falta el idioma u otros datos, o que está mal construido), no de tu Kindle ni de tu conexión. Volver a guardar el EPUB con Calibre lo arregla en la mayoría de los casos.</p>
+
+<h2>Por qué aparece</h2>
+<ul>
+  <li><strong>Metadatos que faltan:</strong> EPUB sin idioma, sin título o sin identificador.</li>
+  <li><strong>Codificación:</strong> archivos que no declaran UTF-8 dan problemas con tildes, eñes y otros caracteres.</li>
+  <li><strong>Estructura rota:</strong> HTML mal formado, archivos que faltan o un índice inválido. Es típico de EPUB creados con conversores online.</li>
+  <li><strong>Contenido raro:</strong> imágenes enormes, fuentes incrustadas que el conversor rechaza o estilos muy complejos.</li>
+  <li><strong>DRM:</strong> libros con protección de otras tiendas, que no se pueden convertir.</li>
+</ul>
+<p>Reiniciar el Kindle, reinstalar la app o reenviar el mismo archivo no sirve: hay que cambiar el archivo.</p>
+
+<h2>Soluciones, en orden</h2>
+<h3>1. Volver a guardar el EPUB con Calibre</h3>
+<ol>
+  <li>Instala <a href="https://calibre-ebook.com/" rel="noopener">Calibre</a> (gratis) y añade el EPUB.</li>
+  <li>En <strong>Editar metadatos</strong>, comprueba que tenga título, autor e <strong>idioma</strong>.</li>
+  <li>Pulsa <strong>Convertir libros</strong> con formato de salida <strong>EPUB</strong>. Calibre lo reconstruye limpio.</li>
+  <li>Envía el EPUB nuevo.</li>
+</ol>
+<h3>2. Usar un reparador de EPUB para Kindle</h3>
+<p>Hay herramientas gratuitas de código abierto, como «Kindle EPUB Fix», que añaden el idioma que falta, declaran la codificación y corrigen los fallos típicos que hacen que Amazon rechace un EPUB.</p>
+<h3>3. Validarlo</h3>
+<p>Si el EPUB lo has creado tú, pásalo por EPUBCheck, el validador oficial, y corrige lo que indique.</p>
+<h3>4. Enviar otro formato</h3>
+<p>Si tienes el documento original, envíalo en DOCX o PDF: Amazon los convierte sin problemas.</p>
+<h3>5. Revisar tamaño y nombre</h3>
+<p>Máximo 200 MB por la web y 50 MB por correo. Usa nombres de archivo sencillos.</p>
+
+<h2>Cuándo no tiene arreglo</h2>
+<p>Si el libro tiene DRM de otra tienda, Send to Kindle no lo acepta. Es una limitación de licencia, no un fallo: tendrías que comprar la edición Kindle o leerlo en la app de esa tienda.</p>
+
+<h2>Si estabas enviando un artículo web</h2>
+<p>Los EPUB hechos con conversores rápidos de páginas web son una fuente habitual de E999. Leafpost crea el libro dentro de tu navegador siguiendo el estándar EPUB 3, con título, autor e idioma, HTML válido, imágenes JPEG compatibles, portada e índice. Así evita las causas típicas del E999.</p>
+
+<!--CTA-->
+
+<h2>Preguntas frecuentes</h2>
+<h3>¿Es un problema de mi cuenta?</h3>
+<p>No. Si otros documentos te llegan bien, tu cuenta y tu Kindle están bien: el problema es ese archivo.</p>
+<h3>¿Dónde veo si un envío ha fallado?</h3>
+<p>En <a href="https://www.amazon.es/sendtokindle" rel="nofollow noopener">amazon.es/sendtokindle</a>, en «Archivos enviados recientemente», aparece el estado de cada envío. Si enviaste por correo, Amazon avisa al remitente.</p>

@@ -1,0 +1,67 @@
+<!--{
+  "order": 6,
+  "slug": "es/send-to-kindle-no-funciona",
+  "alt": "send-to-kindle-chrome-extension-not-working",
+  "short": "Send to Kindle no funciona",
+  "title": "Send to Kindle no funciona: causas y soluciones",
+  "h1": "Send to Kindle no funciona: soluciones para la extensión, los envíos y los documentos que no aparecen",
+  "description": "¿La extensión Send to Kindle pide iniciar sesión sin parar, no envía nada o tus documentos no aparecen en el Kindle? Las causas y cómo solucionarlo.",
+  "published": "2026-10-15",
+  "minutes": 7,
+  "related": ["es/error-e999-kindle", "es/correo-kindle", "es/enviar-articulos-a-kindle"]
+}-->
+<p class="answer"><strong>Respuesta rápida:</strong> si el documento no aparece, búscalo en <em>Biblioteca → Documentos</em> (no sale con los libros ni en Kindle para Web) y mira su estado en <strong>amazon.es/sendtokindle → Archivos enviados recientemente</strong>. Si lo que falla es la extensión de Chrome de Amazon, que no se actualiza desde enero de 2024, vuelve a iniciar sesión en la tienda correcta, desactiva los bloqueadores de anuncios o usa una alternativa que sí se mantiene, como Leafpost.</p>
+
+<div class="toc"><strong>En esta guía</strong><ol>
+  <li><a href="#no-aparece">El documento no aparece en el Kindle</a></li>
+  <li><a href="#extension">La extensión de Chrome no funciona</a></li>
+  <li><a href="#errores">El envío da error</a></li>
+  <li><a href="#alternativas">Alternativas que funcionan</a></li>
+</ol></div>
+
+<h2 id="no-aparece">1. El documento no aparece en el Kindle</h2>
+<ul>
+  <li><strong>Mira en Documentos:</strong> en el Kindle, <em>Biblioteca → filtro → Documentos</em>, en la vista «Todo» y no solo «Descargados». En la app del móvil, igual. <strong>Kindle para Web no muestra documentos personales</strong>, solo libros.</li>
+  <li><strong>Comprueba el estado del envío:</strong> en <a href="https://www.amazon.es/sendtokindle" rel="nofollow noopener">amazon.es/sendtokindle</a>, despliega <em>Archivos enviados recientemente</em>. Si pone que está en tu biblioteca, ha llegado bien; si pone error, ve al <a href="#errores">punto 3</a>.</li>
+  <li><strong>Sincroniza:</strong> conecta el Kindle al wifi y pulsa <em>Sincronizar</em> en los ajustes rápidos. Suele tardar uno o dos minutos.</li>
+  <li><strong>Misma cuenta y misma tienda:</strong> si lo enviaste desde otra cuenta u otro Amazon (por ejemplo amazon.com en vez de amazon.es), ha ido a esa biblioteca.</li>
+  <li><strong>Si lo enviaste por correo:</strong> tu dirección tiene que estar autorizada y el correo no puede pasar de 50 MB. Lo explicamos en <a href="../correo-kindle/">el correo de Kindle</a>.</li>
+  <li><strong>Archivo de documentos personales:</strong> en <em>Gestionar contenido y dispositivos → Preferencias → Configuración de documentos personales</em> debe estar activado. Viene activado por defecto.</li>
+</ul>
+
+<h2 id="extension">2. La extensión «Send to Kindle para Google Chrome» no funciona</h2>
+<p>La extensión oficial de Amazon tiene cientos de miles de usuarios, pero no se actualiza desde enero de 2024, y sus reseñas repiten los mismos fallos: pide iniciar sesión una y otra vez, no hace nada al pulsarla o no envía PDFs. Prueba esto, de lo más rápido a lo más lento:</p>
+<ol>
+  <li><strong>Inicia sesión en la tienda correcta:</strong> la del país donde está registrado tu Kindle (amazon.es, amazon.com.mx…).</li>
+  <li><strong>Cierra sesión en la extensión y vuelve a entrar.</strong> Si no deja, quítala, cierra y abre sesión en Amazon y vuelve a instalarla.</li>
+  <li><strong>Desactiva los bloqueadores</strong> (uBlock, Ghostery, NoScript…) en esa página y recárgala.</li>
+  <li><strong>Borra las cookies de Amazon:</strong> en <code>chrome://settings/content/all</code>, busca «amazon», borra los datos y vuelve a iniciar sesión.</li>
+  <li><strong>Prueba con una página sencilla</strong>, como un artículo de Wikipedia. Si ahí funciona, el problema es la web concreta: selecciona el texto y envía solo la selección.</li>
+  <li><strong>Plan B manual:</strong> <kbd>Ctrl</kbd>+<kbd>P</kbd> → <em>Guardar como PDF</em> y súbelo en amazon.es/sendtokindle. Funciona siempre, pero la letra queda pequeña porque mantiene el diseño de la página.</li>
+</ol>
+
+<h2 id="errores">3. El envío da error</h2>
+<ul>
+  <li><strong>E999:</strong> Amazon no pudo convertir el archivo, casi siempre un EPUB defectuoso. Solución: <a href="../error-e999-kindle/">error E999 en Kindle</a>.</li>
+  <li><strong>Archivo demasiado grande:</strong> el límite es 200 MB por la web y 50 MB por correo.</li>
+  <li><strong>Formato no admitido:</strong> los MOBI ya no se aceptan, y los libros con DRM de otras tiendas tampoco.</li>
+</ul>
+
+<h2 id="alternativas">4. Alternativas que funcionan</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Opción</th><th>Imágenes</th><th>PDFs</th><th>Configuración</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Leafpost</strong> (Chrome, Edge, Brave)</td><td>Sí, con portada e índice</td><td>Sí</td><td>Ninguna: usa tu sesión de Amazon</td></tr>
+    <tr><td>Extensión oficial de Amazon</td><td>Irregular</td><td>No</td><td>Iniciar sesión</td></tr>
+    <tr><td>Guardar como PDF + web de Amazon</td><td>Sí, como en la página</td><td>Sí</td><td>Ninguna, pero es lento</td></tr>
+    <tr><td>Servicios por correo</td><td>Normalmente</td><td>Depende</td><td>Autorizar su dirección; uso gratis limitado</td></tr>
+  </tbody>
+</table></div>
+
+<!--CTA-->
+
+<h2>Preguntas frecuentes</h2>
+<h3>¿Amazon ha retirado la extensión?</h3>
+<p>No lo ha anunciado y sigue en la tienda de Chrome, pero no recibe actualizaciones desde enero de 2024.</p>
+<h3>¿Puedo leer los documentos en el navegador?</h3>
+<p>No en Kindle para Web, que solo muestra libros. Usa la app gratuita de Kindle en el móvil o la tablet.</p>
