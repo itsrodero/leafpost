@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = 'https://tubetools.online/leafpost/';
 // Set to the Chrome Web Store URL once the extension is approved.
-const STORE_URL = null;
+const STORE_URL = 'https://chromewebstore.google.com/detail/gdjfpgiobcbhkegfbkdhkneocjfdakad';
 const ADSENSE = 'ca-pub-8621886093597255';
 const GA = 'G-MKM07L3RLR';
 const EEA = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
