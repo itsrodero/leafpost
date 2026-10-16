@@ -29,3 +29,5 @@ summary { font-weight: 600; cursor: pointer; }
 
 .grid h3 a { text-decoration: none; }
 .grid h3 a:hover { text-decoration: underline; }
+
+.pro-note { font-size: 14px; font-weight: 600; color: var(--muted); margin-left: 8px; }
