@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = 'https://tubetools.online/leafpost/';
 const STORE_URL = 'https://chromewebstore.google.com/detail/gdjfpgiobcbhkegfbkdhkneocjfdakad';
+const EDGE_URL = 'https://microsoftedge.microsoft.com/addons/detail/fkceidjlbbfolmbigajdhjafigkamddb';
 const ADSENSE = 'ca-pub-8621886093597255';
 const GA = 'G-MKM07L3RLR';
 const EEA = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
@@ -22,6 +23,7 @@ const T = {
     ctaTitle: 'Send any article to your Kindle in one click',
     ctaText: "Leafpost is our free Chrome extension: it turns web pages, selections and PDFs into clean e-books with images, a cover and a table of contents, and delivers them through Amazon's own Send to Kindle service.",
     ctaButton: 'Add Leafpost to Chrome — free',
+    ctaEdge: 'Using Microsoft Edge? Get Leafpost from Edge Add-ons',
     updated: 'Updated',
     minRead: 'min read',
     related: 'Related guides',
@@ -41,6 +43,7 @@ const T = {
     ctaTitle: 'Envía cualquier artículo a tu Kindle con un clic',
     ctaText: 'Leafpost es nuestra extensión gratuita para Chrome: convierte páginas web, selecciones y PDFs en libros electrónicos limpios, con imágenes, portada e índice, y los envía con el servicio oficial Send to Kindle de Amazon.',
     ctaButton: 'Añadir Leafpost a Chrome — gratis',
+    ctaEdge: '¿Usas Microsoft Edge? Descarga Leafpost en Edge Add-ons',
     updated: 'Actualizado el',
     minRead: 'min de lectura',
     related: 'Guías relacionadas',
@@ -78,6 +81,7 @@ function ctaBox(lang, variant = 'inline') {
     <p class="cta-title">${t.ctaTitle}</p>
     <p>${t.ctaText}</p>
     <a class="btn" href="${STORE_URL}" rel="noopener">${t.ctaButton}</a>
+    <p class="alt-store"><a href="${EDGE_URL}" rel="noopener">${t.ctaEdge}</a></p>
   </div>
 </aside>`;
 }
