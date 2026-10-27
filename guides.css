@@ -41,3 +41,20 @@ figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; }
 @media (max-width: 520px) { .cta { flex-direction: column; } }
 .cta .alt-store { margin: 10px 0 0; font-size: 14px; }
 .cta .alt-store a { color: #f5c46b; }
+
+.waitlist fieldset { border: 0; padding: 0; margin: 24px 0; display: grid; gap: 10px; }
+.waitlist legend { font-weight: 700; font-size: 20px; margin-bottom: 12px; padding: 0; }
+.waitlist .feature { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; cursor: pointer; color: var(--muted); font-size: 16px; line-height: 1.5; }
+.waitlist .feature:has(input:checked) { border-color: var(--amber); background: var(--surface); }
+.waitlist .feature strong { color: var(--text); }
+.waitlist .feature em { font-style: normal; font-size: 12px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border); white-space: nowrap; }
+.waitlist input[type="checkbox"] { width: 18px; height: 18px; margin: 4px 0 0; flex: none; accent-color: var(--amber); }
+.waitlist .field { display: block; margin: 18px 0; }
+.waitlist .field span { display: block; font-weight: 600; margin-bottom: 6px; }
+.waitlist input[type="email"], .waitlist textarea { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font: inherit; font-size: 16px; }
+.waitlist .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 16px; line-height: 1.5; margin: 18px 0 4px; }
+.waitlist .btn { border: 0; font: inherit; font-weight: 700; cursor: pointer; }
+.waitlist .btn:disabled { opacity: .6; cursor: progress; }
+.form-msg { color: #c5221f; font-weight: 600; }
+@media (prefers-color-scheme: dark) { .form-msg { color: #f28b82; } }
+.small-print { font-size: 14px; color: var(--muted); }

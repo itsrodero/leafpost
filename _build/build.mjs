@@ -2,7 +2,8 @@
 // Each file in _build/guides/ (en) or _build/guides-es/ (es) starts with a JSON
 // header in an HTML comment (<!--{...}-->) followed by the article body.
 // A Spanish guide may set "alt" to the slug of its English version; the
-// English side is linked back automatically (hreflang). Run: node _build/build.mjs
+// English side is linked back automatically (hreflang). It also builds the Pro
+// waitlist pages (pro/ and es/pro/). Run: node _build/build.mjs
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,6 +15,48 @@ const EDGE_URL = 'https://microsoftedge.microsoft.com/addons/detail/fkceidjlbbfo
 const ADSENSE = 'ca-pub-8621886093597255';
 const GA = 'G-MKM07L3RLR';
 const EEA = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+
+// Pro waitlist. The extension's "Soon" buttons open pro/?f=<feature>&from=<place>&v=<version>;
+// GA counts each arrival as a door_<feature> event. Sign-ups go to a Google Form owned by
+// leafpost.dev@gmail.com ("Leafpost Pro waitlist", created 2026-10-27): `action` is its
+// formResponse URL and `entry` maps our fields to its entry ids. Without them the page refuses to submit.
+const FORM = {
+  action: 'https://docs.google.com/forms/d/e/1FAIpQLScdXcUCX0gxzC544GPy_v9pci35rMe7un0DrUK7RWMeKzT53w/formResponse',
+  entry: { email: 'entry.791917642', features: 'entry.75689870', comment: 'entry.1451580480', source: 'entry.1357422267' },
+};
+// Not built yet. Keep the ids in sync with extension/lib/doors.js.
+const FEATURES = [
+  {
+    id: 'translate',
+    en: ['Translate before sending', 'Read any article in your language: Leafpost translates it in your browser and sends the translated e-book.'],
+    es: ['Traducir antes de enviar', 'Lee cualquier artículo en tu idioma: Leafpost lo traduce en tu navegador y envía el libro ya traducido.'],
+  },
+  {
+    id: 'pocket',
+    en: ['Import from Pocket or Instapaper', 'Bring the articles you saved there into your Leafpost reading list in one go.'],
+    es: ['Importar desde Pocket o Instapaper', 'Trae de una vez a tu lista de lectura los artículos que guardaste allí.'],
+  },
+  {
+    id: 'rss',
+    en: ['Blogs and RSS feeds in your digest', 'Follow your favorite blogs and get their new posts on your Kindle with your daily or weekly digest.'],
+    es: ['Blogs y feeds RSS en tu resumen', 'Sigue tus blogs favoritos y recibe sus entradas nuevas en el Kindle con tu resumen diario o semanal.'],
+  },
+  {
+    id: 'notion',
+    en: ['Highlights synced to Notion or Obsidian', 'New Kindle highlights show up in Notion or your Obsidian vault on their own, without exporting by hand.'],
+    es: ['Subrayados sincronizados con Notion u Obsidian', 'Tus subrayados nuevos del Kindle aparecen solos en Notion o en Obsidian, sin exportarlos a mano.'],
+  },
+  {
+    id: 'newsletters',
+    en: ['Newsletters straight to your Kindle', 'Substack and email newsletters delivered to your Kindle as a weekly magazine.'],
+    es: ['Newsletters directamente en tu Kindle', 'Las newsletters de Substack y del correo, en tu Kindle como una revista semanal.'],
+  },
+  {
+    id: 'phone',
+    en: ['Send from your phone', "Share an article from your phone's browser and find it on your Kindle."],
+    es: ['Enviar desde el móvil', 'Comparte un artículo desde el navegador del móvil y encuéntralo en tu Kindle.'],
+  },
+];
 
 const T = {
   en: {
@@ -35,6 +78,21 @@ const T = {
     indexDescription: 'Practical guides to sending web articles and PDFs to Kindle, fixing Send to Kindle errors, finding your Kindle email and exporting highlights.',
     indexH1: 'Kindle guides',
     indexLead: 'Step-by-step answers to the most common questions about getting things onto your Kindle, and back out of it.',
+    pro: 'pro/',
+    proTitle: 'Leafpost Pro waitlist: vote for what we build next',
+    proDescription: 'Pick the Leafpost features you want next and join the waitlist for Leafpost Pro.',
+    proH1: 'What should Leafpost build next?',
+    proLead: 'Leafpost Pro launches in spring 2027. Until then, everything in it today (reading list, daily digest, all tabs as one book and highlights export) is free. The features below are not built yet: pick the ones you want and we will build the most requested first.',
+    proPick: 'Which ones would you use?',
+    proSoon: 'Not built yet',
+    proComment: 'Anything else you wish Leafpost did? (optional)',
+    proEmail: 'Your email',
+    proConsent: 'Email me when Leafpost Pro launches, with 50% off my first year. One or two emails, no spam, and I can ask to be removed at any time.',
+    proButton: 'Join the waitlist',
+    proSmall: 'Your email and choices are stored in Google Forms and used only for these launch emails.',
+    proThanks: "You're on the list, thank you! We'll write once Pro is ready, and the most requested features go first.",
+    proError: "That didn't go through. Please try again in a moment, or write to leafpost.dev@gmail.com.",
+    proPickOne: 'Pick at least one feature, or tell us what you would like.',
   },
   es: {
     locale: 'es-ES',
@@ -55,6 +113,21 @@ const T = {
     indexDescription: 'Guías prácticas para pasar libros, EPUB, PDFs y artículos a tu Kindle, configurar el correo de Kindle y solucionar errores de Send to Kindle.',
     indexH1: 'Guías de Kindle',
     indexLead: 'Respuestas paso a paso a las dudas más habituales para meter cosas en tu Kindle, y para sacarlas.',
+    pro: 'es/pro/',
+    proTitle: 'Lista de espera de Leafpost Pro: vota qué hacemos después',
+    proDescription: 'Elige las próximas funciones de Leafpost y apúntate a la lista de espera de Leafpost Pro.',
+    proH1: '¿Qué debería hacer Leafpost a continuación?',
+    proLead: 'Leafpost Pro sale en la primavera de 2027. Hasta entonces, todo lo que incluye hoy (lista de lectura, resumen diario, todas las pestañas en un libro y exportar subrayados) es gratis. Las funciones de abajo aún no existen: elige las que quieras y haremos primero las más pedidas.',
+    proPick: '¿Cuáles usarías?',
+    proSoon: 'Aún no existe',
+    proComment: '¿Algo más que te gustaría que hiciera Leafpost? (opcional)',
+    proEmail: 'Tu correo',
+    proConsent: 'Avísame por correo cuando salga Leafpost Pro, con un 50 % de descuento el primer año. Uno o dos correos, sin spam, y puedo pedir que me borréis cuando quiera.',
+    proButton: 'Apuntarme a la lista',
+    proSmall: 'Tu correo y lo que elijas se guardan en Google Forms y solo se usan para estos avisos.',
+    proThanks: '¡Ya estás en la lista, gracias! Te escribiremos cuando Pro esté listo, y lo más pedido irá primero.',
+    proError: 'No se ha podido enviar. Inténtalo de nuevo en un momento o escribe a leafpost.dev@gmail.com.',
+    proPickOne: 'Elige al menos una función o cuéntanos qué te gustaría.',
   },
 };
 
@@ -86,7 +159,7 @@ function ctaBox(lang, variant = 'inline') {
 </aside>`;
 }
 
-function head({ lang, title, description, url, type = 'article', jsonLd = [], alternates = null }) {
+function head({ lang, title, description, url, type = 'article', jsonLd = [], alternates = null, robots = '', ads = true }) {
   const hreflang = alternates
     ? Object.entries(alternates)
         .map(([l, u]) => `<link rel="alternate" hreflang="${l}" href="${u}" />`)
@@ -101,7 +174,7 @@ function head({ lang, title, description, url, type = 'article', jsonLd = [], al
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
 <link rel="canonical" href="${url}" />
-${hreflang}
+${robots ? `<meta name="robots" content="${robots}" />\n` : ''}${hreflang}
 <meta property="og:type" content="${type}" />
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
@@ -114,8 +187,7 @@ ${hreflang}
 <link rel="stylesheet" href="${BASE}guides.css" />
 ${jsonLd.map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`).join('\n')}
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',region:${JSON.stringify(EEA)},wait_for_update:500});gtag('consent','default',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});gtag('js',new Date());gtag('config','${GA}');addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${GA}';document.head.appendChild(s);},1200);});</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE}" crossorigin="anonymous"></script>
-</head>`;
+${ads ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE}" crossorigin="anonymous"></script>\n` : ''}</head>`;
 }
 
 function header(lang, otherUrl) {
@@ -211,6 +283,86 @@ ${footer(lang)}
 `;
 }
 
+// The waitlist is noindex and stays out of the sitemap: it is a form, not content.
+function renderWaitlist(lang) {
+  const t = T[lang];
+  const other = lang === 'en' ? 'es' : 'en';
+  const url = `${BASE}${t.pro}`;
+  const config = {
+    form: FORM,
+    ids: FEATURES.map((f) => f.id),
+    error: t.proError,
+    pickOne: t.proPickOne,
+  };
+  return `${head({ lang, title: t.proTitle, description: t.proDescription, url, type: 'website', robots: 'noindex', ads: false, alternates: { [lang]: url, [other]: `${BASE}${T[other].pro}`, en: `${BASE}${T.en.pro}` } })}
+<body>
+${header(lang, `${BASE}${T[other].pro}`)}
+<main class="guide">
+  <h1>${t.proH1}</h1>
+  <p class="lead">${t.proLead}</p>
+  <form id="waitlist" class="waitlist">
+    <fieldset>
+      <legend>${t.proPick}</legend>
+      ${FEATURES.map((f) => `<label class="feature"><input type="checkbox" name="feature" value="${f.id}" /><span><strong>${esc(f[lang][0])}</strong> <em>${t.proSoon}</em><br />${esc(f[lang][1])}</span></label>`).join('\n      ')}
+    </fieldset>
+    <label class="field"><span>${t.proComment}</span><textarea name="comment" rows="3" maxlength="1000"></textarea></label>
+    <label class="field"><span>${t.proEmail}</span><input type="email" name="email" required autocomplete="email" maxlength="200" /></label>
+    <label class="consent"><input type="checkbox" name="consent" required /><span>${t.proConsent}</span></label>
+    <button class="btn" type="submit">${t.proButton}</button>
+    <p class="form-msg" role="alert" hidden></p>
+    <p class="small-print">${t.proSmall} <a href="${BASE}privacy.html">${t.privacy}</a>.</p>
+  </form>
+  <p id="thanks" class="answer" role="status" hidden>${t.proThanks}</p>
+  ${ctaBox(lang, 'end')}
+</main>
+${footer(lang)}
+<script>
+(function () {
+  var C = ${JSON.stringify(config)};
+  var q = new URLSearchParams(location.search);
+  var door = C.ids.indexOf(q.get('f')) >= 0 ? q.get('f') : '';
+  var from = (q.get('from') || 'web').replace(/[^a-z]/g, '').slice(0, 12);
+  var version = (q.get('v') || '').replace(/[^0-9.]/g, '').slice(0, 12);
+  var form = document.getElementById('waitlist');
+  var msg = form.querySelector('.form-msg');
+  var box = function (id) { return form.querySelector('input[value="' + id + '"]'); };
+  if (door) {
+    box(door).checked = true;
+    gtag('event', 'door_' + door, { door_from: from });
+  }
+  function fail(text) {
+    msg.textContent = text;
+    msg.hidden = false;
+    form.querySelector('button').disabled = false;
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var picked = C.ids.filter(function (id) { return box(id).checked; });
+    var comment = form.elements.comment.value.trim();
+    if (!picked.length && !comment) return fail(C.pickOne);
+    if (!C.form.action) return fail(C.error);
+    var body = new URLSearchParams();
+    body.append(C.form.entry.email, form.elements.email.value.trim());
+    body.append(C.form.entry.features, picked.join(', '));
+    body.append(C.form.entry.comment, comment);
+    body.append(C.form.entry.source, [from, document.documentElement.lang, version && 'v' + version, door && 'door=' + door].filter(Boolean).join(' | '));
+    form.querySelector('button').disabled = true;
+    msg.hidden = true;
+    // Google Forms sends no CORS headers: the response is opaque, so a resolved request counts as sent.
+    fetch(C.form.action, { method: 'POST', mode: 'no-cors', body: body }).then(function () {
+      gtag('event', 'waitlist_signup', { door_from: from });
+      picked.forEach(function (id) { gtag('event', 'want_' + id); });
+      form.hidden = true;
+      document.getElementById('thanks').hidden = false;
+    }, function () { fail(C.error); });
+  });
+})();
+</script>
+</body>
+</html>
+`;
+}
+
 function renderSitemap(all) {
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
@@ -218,7 +370,7 @@ function renderSitemap(all) {
     { loc: `${BASE}${T.en.index}`, lastmod: today },
     { loc: `${BASE}${T.es.index}`, lastmod: today },
     ...all.map((g) => ({ loc: urlOf(g), lastmod: g.updated || g.published })),
-    { loc: `${BASE}privacy.html`, lastmod: '2026-10-14' },
+    { loc: `${BASE}privacy.html`, lastmod: '2026-10-27' },
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -245,5 +397,10 @@ for (const [lang, list] of [['en', en], ['es', es]]) {
   mkdirSync(join(ROOT, T[lang].index), { recursive: true });
   writeFileSync(join(ROOT, T[lang].index, 'index.html'), renderIndex(lang, list));
 }
+for (const lang of ['en', 'es']) {
+  mkdirSync(join(ROOT, T[lang].pro), { recursive: true });
+  writeFileSync(join(ROOT, T[lang].pro, 'index.html'), renderWaitlist(lang));
+}
 writeFileSync(join(ROOT, 'sitemap.xml'), renderSitemap(all));
-console.log(`${en.length} English + ${es.length} Spanish guides built`);
+console.log(`${en.length} English + ${es.length} Spanish guides built, plus the Pro waitlist`);
+if (!FORM.action) console.warn('Waitlist: FORM.action is empty, so sign-ups are refused until the Google Form is connected.');

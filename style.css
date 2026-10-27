@@ -33,3 +33,5 @@ summary { font-weight: 600; cursor: pointer; }
 .pro-note { font-size: 14px; font-weight: 600; color: var(--muted); margin-left: 8px; }
 .alt-store { margin: 12px 0 0; font-size: 15px; opacity: .85; }
 .alt-store a { color: inherit; }
+.coming { margin: 28px 0 0; color: var(--muted); }
+.coming a { font-weight: 700; color: var(--text); }
